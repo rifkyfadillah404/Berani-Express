@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Incident List View -->
+    <record id="view_courier_incident_list" model="ir.ui.view">
+        <field name="name">courier.incident.list</field>
+        <field name="model">courier.incident</field>
+        <field name="arch" type="xml">
+            <list string="Log Insiden"
+                  decoration-warning="state == 'followup'"
+                  decoration-success="state == 'done'">
+                <field name="name"/>
+                <field name="customer_id"/>
+                <field name="shipment_id" optional="show"/>
+                <field name="incident_type"/>
+                <field name="incident_datetime"/>
+                <field name="severity"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Incident Form View -->
+    <record id="view_courier_incident_form" model="ir.ui.view">
+        <field name="name">courier.incident.form</field>
+        <field name="model">courier.incident</field>
+        <field name="arch" type="xml">
+            <form string="Insiden">
+                <header>
+                    <button name="action_followup"
+                            string="Mark Follow-up"
+                            type="object"
+                            class="oe_highlight"
+                            invisible="state != 'draft'"/>
+                    <button name="action_resolve"
+                            string="Resolve"
+                            type="object"
+                            class="oe_highlight"
+                            invisible="state != 'followup'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,followup,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="customer_id"/>
+                            <field name="shipment_id"/>
+                            <field name="incident_type"/>
+                        </group>
+                        <group>
+                            <field name="incident_datetime"/>
+                            <field name="severity"/>
+                            <field name="resolved_at" invisible="state != 'done'"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Kronologi">
+                            <field name="description" placeholder="Jelaskan kronologi insiden..."/>
+                        </page>
+                        <page string="Catatan Follow-up">
+                            <field name="followup_note" placeholder="Catatan tindak lanjut..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Incident Action -->
+    <record id="action_courier_incident" model="ir.actions.act_window">
+        <field name="name">Log Insiden</field>
+        <field name="res_model">courier.incident</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Buat log insiden baru
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Root -->
+    <menuitem
+        id="menu_courier_root"
+        name="Courier"
+        sequence="10"
+    />
+
+    <!-- Incident Menu -->
+    <menuitem
+        id="menu_courier_incident"
+        name="Log Insiden"
+        parent="menu_courier_root"
+        action="action_courier_incident"
+        sequence="10"
+    />
+
+</odoo>
