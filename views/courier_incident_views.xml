@@ -10,7 +10,7 @@
                   decoration-success="state == 'done'">
                 <field name="name"/>
                 <field name="customer_id"/>
-                <field name="shipment_id" optional="show"/>
+                <field name="shipment_id"/>
                 <field name="incident_type"/>
                 <field name="incident_datetime"/>
                 <field name="severity"/>
@@ -24,7 +24,7 @@
         <field name="name">courier.incident.form</field>
         <field name="model">courier.incident</field>
         <field name="arch" type="xml">
-            <form string="Insiden">
+            <form string="Log Insiden">
                 <header>
                     <button name="action_followup"
                             string="Mark Follow-up"
@@ -49,15 +49,15 @@
                         <group>
                             <field name="incident_datetime"/>
                             <field name="severity"/>
-                            <field name="resolved_at" invisible="state != 'done'"/>
+                            <field name="resolved_at"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Kronologi">
-                            <field name="description" placeholder="Jelaskan kronologi insiden..."/>
+                            <field name="description" placeholder="Detail kejadian..."/>
                         </page>
-                        <page string="Catatan Follow-up">
-                            <field name="followup_note" placeholder="Catatan tindak lanjut..."/>
+                        <page string="Catatan">
+                            <field name="followup_note" placeholder="Tindakan yang diambil..."/>
                         </page>
                     </notebook>
                 </sheet>
@@ -70,7 +70,7 @@
     <record id="action_courier_incident" model="ir.actions.act_window">
         <field name="name">Log Insiden</field>
         <field name="res_model">courier.incident</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Buat log insiden baru
